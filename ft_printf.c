@@ -12,6 +12,24 @@
 
 #include "ft_printf.h"
 
+static void	redirect_to(const char *str, va_list args, int *len, int *failed)
+{
+	if (*str == 'c')
+		*len += ft_putchar(va_arg(args, int), failed);
+	else if (*str == 's')
+		*len += ft_putstr(va_arg(args, char *), failed);
+	else if (*str == 'd' || *str == 'i')
+		*len += ft_putnbr(va_arg(args, int), failed);
+	else if (*str == 'u')
+		*len += ft_putnbr_u(va_arg(args, int), failed);
+	else if (*str == 'p')
+		*len += ft_puthexa(va_arg(args, void *), failed);
+	else if (*str == 'x' || *str == 'X')
+		*len += ft_puthexa_nb(va_arg(args, unsigned int), *str, failed);
+	else
+		*len += ft_putchar(*str, failed);
+}
+
 static int	print_result(const char *str, va_list args, int *is_pers)
 {
 	int	len;
@@ -23,20 +41,7 @@ static int	print_result(const char *str, va_list args, int *is_pers)
 		*is_pers = 1;
 	else if (*is_pers)
 	{
-		if (*str == 'c')
-			len += ft_putchar(va_arg(args, int), &failed);
-		else if (*str == 's')
-			len += ft_putstr(va_arg(args, char *), &failed);
-		else if (*str == 'd' || *str == 'i')
-			len += ft_putnbr(va_arg(args, int), &failed);
-		else if (*str == 'u')
-			len += ft_putnbr_u(va_arg(args, int), &failed);
-		else if (*str == 'p')
-			len += ft_puthexa(va_arg(args, void *), &failed);
-		else if (*str == 'x' || *str == 'X')
-			len += ft_puthexa_nb(va_arg(args, unsigned int), *str, &failed);
-		else
-			len += ft_putchar(*str, &failed);
+		redirect_to(str, args, &len, &failed);
 		*is_pers = 0;
 	}
 	else
@@ -46,13 +51,25 @@ static int	print_result(const char *str, va_list args, int *is_pers)
 	return (len);
 }
 
+static int	contain_odd_pers(const char *str, int last_index)
+{
+	int	is_odd;
+
+	is_odd = 1;
+	while (str[last_index] && str[last_index] == '%')
+	{
+		is_odd = -is_odd;
+		last_index--;
+	}
+	return (is_odd);
+}
+
 int	ft_printf(const char *str, ...)
 {
 	va_list	args;
 	int		is_pers;
 	int		len;
 	int		n;
-	int		strlen;
 	int		is_odd;
 
 	len = 0;
@@ -67,15 +84,7 @@ int	ft_printf(const char *str, ...)
 			return (-1);
 		len += n;
 	}
-	// TODO : adding new function handle this ->
-	strlen = ft_strlen(str) - 1;
-	is_odd = 1;
-	while (str[strlen] && str[strlen] == '%')
-	{
-		is_odd = -is_odd;
-		strlen--;
-	}
-	// the end
+	is_odd = contain_odd_pers(str, ft_strlen(str) -1);
 	if (is_odd == -1)
 		return (-1);
 	return (len);

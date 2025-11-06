@@ -1,6 +1,6 @@
 CC = cc 
-CFLAGS = -Wall -Wextra -Werror 
-INCLUDES = printf.h
+CFLAGS = -Wall -Wextra -Werror
+INCLUDES = ft_printf.h
 
 NAME = libftprintf.a
 

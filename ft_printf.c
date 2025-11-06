@@ -27,7 +27,7 @@ static void	redirect_to(const char *str, va_list args, int *len, int *failed)
 	else if (*str == 'x' || *str == 'X')
 		*len += ft_puthexa_nb(va_arg(args, unsigned int), *str, failed);
 	else
-		*len += ft_putchar(*str, failed);
+		*len += ft_putchar('%', failed);
 }
 
 static int	print_result(const char *str, va_list args, int *is_pers)
@@ -66,11 +66,11 @@ static int	contain_odd_pers(const char *str, int last_index)
 
 int	ft_printf(const char *str, ...)
 {
-	va_list	args;
 	int		is_pers;
 	int		len;
 	int		n;
 	int		is_odd;
+	va_list	args;
 
 	len = 0;
 	va_start(args, str);
@@ -87,5 +87,6 @@ int	ft_printf(const char *str, ...)
 	is_odd = contain_odd_pers(str, ft_strlen(str) -1);
 	if (is_odd == -1)
 		return (-1);
+	va_end(args);
 	return (len);
 }

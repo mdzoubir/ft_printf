@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    readme.md                                          :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mzoubir <marvin@42.fr>                     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/11/07 16:38:07 by mzoubir           #+#    #+#              #
-#    Updated: 2025/11/07 16:38:35 by mzoubir          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # ft_printf — 1337 (Project)
 
 ft_printf is a reimplementation of the standard C library function `printf`. The goal of this project is to reproduce the behaviour of `printf` for a specific set of conversion specifiers and formatting options, while respecting the constraints of the 1337 (42) curriculum.
